@@ -6,7 +6,7 @@ import (
 	"net/http"
 	"echoApi/models"
 	"strconv"
-	"fmt"
+	// "fmt"
 )
 
 type result struct {
@@ -21,21 +21,17 @@ func GetCart(c echo.Context) error {
 	var products []models.Product
 	db := mydb.DB()
 	db.Find(&products)
-	// return c.JSON(http.StatusOK, products)
 
 	var ids []int
 	var amounts []int
-
-
-
 	db.Model(&models.Cart_Item{}).Pluck("Item_Id", &ids)
 	db.Model(&models.Cart_Item{}).Pluck("Amount", &amounts)
 
-	fmt.Println(ids)
-
-	// var cart_items []models.Cart_Item
+	if len(ids) == 0 {
+		return c.JSON(http.StatusNotFound, echo.Map{"message": "No products in the cart"})
+	}
+	
 	db.Where(ids).Find(&products)
-	// db.Model(&cart_items).Select("cart_items.amount, products.name, products.price").Joins("left join cart_items on cart_items.item_id = products.id").Scan(&result{})
 
 	var results []result
 
@@ -94,18 +90,14 @@ func RemoveProductFromCart(c echo.Context) error {
 	db := mydb.DB()
 	// db.Preload("Products").FirstOrCreate(&cart)
 	// var product models.Product
-	fmt.Println("debug1")
 	if result := db.Where("Item_Id = ?", id).First(&cart_item); result.Error != nil {
-		fmt.Println("debug2")
 		return c.JSON(http.StatusNotFound, echo.Map{"message": "Product not found"})
 	}
 
 	if cart_item.Amount == 1 {
-		fmt.Println("debug3")
 		db.Delete(&cart_item)
 		return c.JSON(http.StatusOK, nil)
 	} else {
-		fmt.Println("debug4")
 		updatedCart_Item := new(models.Cart_Item)
 		if err := c.Bind(updatedCart_Item); err != nil {
 			return err
