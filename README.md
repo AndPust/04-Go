@@ -9,4 +9,6 @@ After that run the Go compilation:
 
 `go run ./main.go`
 
+The application should be accessible on `localhost:8080`
+
 
