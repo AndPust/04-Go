@@ -11,6 +11,6 @@ After that run the Go compilation:
 
 The application should be accessible on `localhost:8080`
 
-Gzipped MP4 demo is here:: https://github.com/AndPust/04-Go/blob/main/demos/04-Go.mp4.gz
+Gzipped MP4 demo is here: https://github.com/AndPust/Demos-E-Biznes/blob/main/04-Go/04-Go.mp4.gz
  
 ✅ 4.0 requirement: https://github.com/AndPust/04-Go/commit/4c9f951f37ed293a10c627c0eb797bd9a2ed5fdc 
